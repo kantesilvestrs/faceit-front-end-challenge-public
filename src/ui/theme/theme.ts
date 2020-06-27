@@ -1,6 +1,6 @@
 import { Theme } from './theme.interface';
 
-const theme: Theme = {
+export const theme: Theme = {
   palette: {
     primary: {
       main: '#FF5500',
@@ -64,5 +64,3 @@ const theme: Theme = {
     }
   }
 };
-
-export default theme;

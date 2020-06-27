@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import theme from '../theme';
+import theme from '../theme/theme';
+
+interface ButtonProps {
+  spacing?: number;
+}
 
 const Button = styled.button`
   background: transparent;

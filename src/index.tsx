@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import GlobalStyle from './GlobalStyle';
-import store from './store';
-import Container from './components/Container';
-import H4 from './components/H4';
+import { GlobalStyle } from './ui/GlobalStyle';
+import { store } from './core/store';
+import { Container } from './ui/components';
+import { H4 } from './ui/components';
+import { ThemeProvider } from 'styled-components';
+import theme from './ui/theme/theme';
 
 const App: React.FC = () => {
   return (
@@ -16,8 +18,10 @@ const App: React.FC = () => {
 
 ReactDOM.render(
   <Provider store={store}>
-    <GlobalStyle />
-    <App />
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <App />
+    </ThemeProvider>
   </Provider>,
   document.getElementById('root')
 );

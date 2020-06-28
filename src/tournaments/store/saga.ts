@@ -26,8 +26,15 @@ import { TournamentsStoreModule } from '.';
 function* updateTournament(action: UpdateTournament) {
   try {
     const currentState: TournamentsStoreModule = yield select();
+    const tournament =
+      currentState.TOURNAMENTS.tournaments.find(
+        ({ id: tournamentId }) => tournamentId === action.payload.id
+      ) || ({} as ITournamentResponse);
 
-    yield call(API.updateTournament, action.payload.id, action.payload.name);
+    yield call(API.updateTournament, action.payload.id, {
+      ...tournament,
+      name: action.payload.name
+    });
     yield put({ ...new UpdateTournamentSuccess() });
 
     // After successfull tournament deletion refresh the screen with the latest data

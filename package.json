@@ -40,7 +40,7 @@
     "wait-for-localhost-cli": "^1.1.0"
   },
   "scripts": {
-    "start": "concurrently --kill-others \"npm run start:api:timeout\"  \"wait-for-localhost 4000 && npm run start:web\"",
+    "start": "concurrently --kill-others \"npm run start:api\"  \"wait-for-localhost 4000 && npm run start:web\"",
     "start:api": "json-server -p 4000 -m api/post.js -d -w ./api/db.js",
     "start:api:timeout": "json-server -p 4000 -m api/timeout.js -d -w ./api/db.js",
     "start:web": "react-scripts start",

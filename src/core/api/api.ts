@@ -63,4 +63,17 @@ export class API {
   public static createTournament(name: string) {
     return axios.post(`${API_TOURNAMENTS_URL}`, { name });
   }
+
+  /**
+   * Update an existing tournament
+   *
+   * @static
+   * @param {string} id - Tournament id
+   * @param {string} name - New tournament name
+   * @returns
+   * @memberof API
+   */
+  public static updateTournament(id: string, name: string) {
+    return axios.put(`${API_TOURNAMENTS_URL}/${id}`, { name });
+  }
 }

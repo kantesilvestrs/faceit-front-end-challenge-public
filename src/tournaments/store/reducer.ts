@@ -16,6 +16,31 @@ export function tournamentsReducer(
   action: TournamentActions
 ): TournamentsState {
   switch (action.type) {
+    case TournamentActionTypes.SEARCH_TOURNAMENTS: {
+      return {
+        ...state,
+        fetching: true
+      };
+    }
+
+    case TournamentActionTypes.SEARCH_TOURNAMENTS_SUCCESS: {
+      return {
+        ...state,
+        fetching: false,
+        error: null,
+        tournaments: action.payload.tournaments
+      };
+    }
+
+    case TournamentActionTypes.SEARCH_TOURNAMENTS_ERROR: {
+      return {
+        ...state,
+        fetching: false,
+        error: action.payload.error,
+        tournaments: []
+      };
+    }
+
     case TournamentActionTypes.INITIALIZE_TOURNAMENTS: {
       return {
         ...state,

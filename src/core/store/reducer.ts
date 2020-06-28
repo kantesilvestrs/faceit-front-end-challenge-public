@@ -1,16 +1,35 @@
-// import { combineReducers } from 'redux';
-// import tournaments from '../../tournaments/store';
+import { ApplicationActions, ApplicationActionType } from './actions';
 
-import { AnyAction } from 'redux';
+export class ApplicationState {
+  initialized: boolean = false;
+  error: string | null = null;
+}
 
-// const rootReducer = combineReducers({
-//   tournaments
-// });
+const initApplicationState = { ...new ApplicationState() };
 
-// export type RootState = ReturnType<typeof rootReducer>;
+export const applicationReducer = (
+  state: ApplicationState = initApplicationState,
+  action: ApplicationActions
+): ApplicationState => {
+  switch (action.type) {
+    case ApplicationActionType.INITIALIZE_APPLICATION_SUCCESS: {
+      return {
+        ...state,
+        initialized: true,
+        error: null
+      };
+    }
 
-// export default rootReducer;
+    case ApplicationActionType.INITIALIZE_APPLICATION_ERROR: {
+      return {
+        ...state,
+        initialized: false,
+        error: action.payload.error
+      };
+    }
 
-export const rootReducer = (state = {}, action: AnyAction) => {
-  return state;
+    default: {
+      return state;
+    }
+  }
 };

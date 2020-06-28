@@ -11,7 +11,10 @@ import {
   CreateNewTournamentSuccess,
   DeleteTournament,
   DeleteTournamentError,
-  DeleteTournamentSuccess
+  DeleteTournamentSuccess,
+  UpdateTournament,
+  UpdateTournamentError,
+  UpdateTournamentSuccess
 } from './actions';
 import { log } from '../../core/utils/logging/logService';
 import { API } from '../../core/api/api';
@@ -19,6 +22,23 @@ import { AxiosResponse } from 'axios';
 import { ITournamentResponse } from '../../core/api/responseTypes';
 import { DEFAULT_PAGE_SIZE } from '../constants/api';
 import { TournamentsStoreModule } from '.';
+
+function* updateTournament(action: UpdateTournament) {
+  try {
+    const currentState: TournamentsStoreModule = yield select();
+
+    yield call(API.updateTournament, action.payload.id, action.payload.name);
+    yield put({ ...new UpdateTournamentSuccess() });
+
+    // After successfull tournament deletion refresh the screen with the latest data
+    yield put({
+      ...new SearchTournaments({ query: currentState.TOURNAMENTS.latestQuery })
+    });
+  } catch (e) {
+    yield put({ ...new UpdateTournamentError() });
+    log.error(e);
+  }
+}
 
 function* deleteTournament(action: DeleteTournament) {
   try {
@@ -98,4 +118,5 @@ export function* tournamentsSaga() {
     createNewTournament
   );
   yield takeEvery(TournamentActionTypes.DELETE_TOURNAMENT, deleteTournament);
+  yield takeEvery(TournamentActionTypes.UPDATE_TOURNAMENT, updateTournament);
 }

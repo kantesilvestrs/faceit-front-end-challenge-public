@@ -5,5 +5,11 @@ module.exports = (req, _res, next) => {
     req.body = createTournament(req.body.name);
   }
 
-  next();
+  if (req.method === 'GET' && (req.query || {}).name_like === 'error') {
+    _res.status(500).jsonp({
+      error: 'Something went wrong'
+    });
+  } else {
+    next();
+  }
 };

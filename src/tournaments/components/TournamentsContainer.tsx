@@ -6,7 +6,8 @@ import { useDispatch } from 'react-redux';
 import {
   SearchTournaments,
   DeleteTournament,
-  CreateNewTournament
+  CreateNewTournament,
+  UpdateTournament
 } from '../store';
 import { DEFAULT_PAGE_SIZE } from '../constants/api';
 
@@ -26,6 +27,22 @@ export const TournamentsContainer = () => {
           }
         })
       });
+    },
+    [dispatch]
+  );
+
+  const handleItemEdit = useCallback(
+    (id: string, name: string) => {
+      const tournamentName = window.prompt('Tournament Name:', name);
+
+      if (tournamentName !== null && tournamentName !== '') {
+        dispatch({
+          ...new UpdateTournament({
+            id,
+            name: tournamentName
+          })
+        });
+      }
     },
     [dispatch]
   );
@@ -91,6 +108,7 @@ export const TournamentsContainer = () => {
         <TournamentsList
           onRetry={handleRetrySearch}
           handleItemDelete={handleItemDelete}
+          handleItemEdit={handleItemEdit}
         />
       </PageRow>
     </PageContainer>

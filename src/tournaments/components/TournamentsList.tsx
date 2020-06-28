@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
   getCurrentTournamentList,
@@ -22,18 +22,17 @@ const TournamentListWrapper = styled.div`
 `;
 
 interface TournamentsListProps {
+  handleItemEdit: (id: string, name: string) => void;
   handleItemDelete: (id: string) => void;
   onRetry: () => void;
 }
 
 export const TournamentsList = (props: TournamentsListProps) => {
-  const { onRetry, handleItemDelete } = props;
+  const { onRetry, handleItemDelete, handleItemEdit } = props;
   // TODO: Implement more specific memoization
   const tournaments = useSelector(getCurrentTournamentList);
   const fetchStatus = useSelector(getTournamentFetchStatus);
   const fetchError = useSelector(getTournamentError);
-
-  const handleOnItemEditClick = useCallback((id: string) => {}, []);
 
   return useMemo(
     () => (
@@ -53,7 +52,7 @@ export const TournamentsList = (props: TournamentsListProps) => {
                   currentParticipants={participants.current}
                   maxParticipants={participants.max}
                   startDate={startDate}
-                  onEditClick={handleOnItemEditClick}
+                  onEditClick={handleItemEdit}
                   onDeleteClick={handleItemDelete}
                 />
               )
@@ -84,7 +83,7 @@ export const TournamentsList = (props: TournamentsListProps) => {
       tournaments,
       fetchStatus,
       handleItemDelete,
-      handleOnItemEditClick,
+      handleItemEdit,
       onRetry,
       fetchError
     ]

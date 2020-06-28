@@ -53,7 +53,7 @@ interface TournamentListItemProps {
   currentParticipants: number;
   maxParticipants: number;
   startDate: string;
-  onEditClick: (id: string) => void;
+  onEditClick: (id: string, name: string) => void;
   onDeleteClick: (id: string) => void;
 }
 
@@ -74,7 +74,7 @@ export const TournamentListItem = (props: TournamentListItemProps) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    onEditClick(id);
+    onEditClick(id, name);
   };
 
   const handleDeleteButtonOnClick = (

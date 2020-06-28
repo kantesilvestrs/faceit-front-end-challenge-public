@@ -10,3 +10,14 @@ import { TournamentsStoreModule } from './storeModule';
 export function getCurrentTournamentList(state: TournamentsStoreModule) {
   return state.TOURNAMENTS.tournaments;
 }
+
+/**
+ * Get current fetch status for tournament list
+ *
+ * @export
+ * @param {TournamentsStoreModule} state
+ * @returns
+ */
+export function getTournamentFetchStatus(state: TournamentsStoreModule) {
+  return state.TOURNAMENTS.fetching;
+}

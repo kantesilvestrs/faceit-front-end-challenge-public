@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Container, H4 } from '../ui/components';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
@@ -10,10 +10,18 @@ import { getCoreApplicationStoreModule } from './store/storeModule';
 
 const coreApplicationModule = getCoreApplicationStoreModule();
 
+const TournamentsLazy = React.lazy(() => import('../tournaments/Tournaments'));
+const Tournaments = () => (
+  <Suspense fallback={<>Loading tournamnets...</>}>
+    <TournamentsLazy />
+  </Suspense>
+);
+
 const App = () => (
   <DynamicModuleLoader modules={[coreApplicationModule]}>
     <Container>
       <H4>FACEIT Tournaments</H4>
+      <Tournaments />
     </Container>
   </DynamicModuleLoader>
 );

@@ -8,7 +8,47 @@ export enum TournamentActionTypes {
   INITIALIZE_TOURNAMENTS_ERROR = '[TOURNAMENTS_MODULE][TOURNAMENTS] Failed to initialize tournament state',
   SEARCH_TOURNAMENTS = '[TOURNAMENTS_MODULE][TOURNAMENTS] New search request for tournaments',
   SEARCH_TOURNAMENTS_SUCCESS = '[TOURNAMENTS_MODULE][TOURNAMENTS] Successfully searched tournaments',
-  SEARCH_TOURNAMENTS_ERROR = '[TOURNAMENTS_MODULE][TOURNAMENTS] Failed to search tournaments'
+  SEARCH_TOURNAMENTS_ERROR = '[TOURNAMENTS_MODULE][TOURNAMENTS] Failed to search tournaments',
+  CREATE_NEW_TOURNAMENT = '[TOURNAMENTS_MODULE][TOURNAMENTS] Create new tournament',
+  CREATE_NEW_TOURNAMENT_SUCCESS = '[TOURNAMENTS_MODULE][TOURNAMENTS] Successfully created new tournament',
+  CREATE_NEW_TOURNAMENT_ERROR = '[TOURNAMENTS_MODULE][TOURNAMENTS] Failed to create new tournament',
+  DELETE_TOURNAMENT = '[TOURNAMENTS_MODULE][TOURNAMENTS] Delete existing tournament',
+  DELETE_TOURNAMENT_SUCCESS = '[TOURNAMENTS_MODULE][TOURNAMENTS] Successfully delete tournament',
+  DELETE_TOURNAMENT_ERROR = '[TOURNAMENTS_MODULE][TOURNAMENTS] Failed to delete tournament'
+}
+
+export class DeleteTournament implements AnyAction {
+  public readonly type = TournamentActionTypes.DELETE_TOURNAMENT;
+  constructor(
+    public payload: {
+      tournamentId: string;
+    }
+  ) {}
+}
+
+export class DeleteTournamentSuccess implements AnyAction {
+  public readonly type = TournamentActionTypes.DELETE_TOURNAMENT_SUCCESS;
+}
+
+export class DeleteTournamentError implements AnyAction {
+  public readonly type = TournamentActionTypes.DELETE_TOURNAMENT_ERROR;
+}
+
+export class CreateNewTournament implements AnyAction {
+  public readonly type = TournamentActionTypes.CREATE_NEW_TOURNAMENT;
+  constructor(
+    public payload: {
+      name: string;
+    }
+  ) {}
+}
+
+export class CreateNewTournamentSuccess implements AnyAction {
+  public readonly type = TournamentActionTypes.CREATE_NEW_TOURNAMENT_SUCCESS;
+}
+
+export class CreateNewTournamentError implements AnyAction {
+  public readonly type = TournamentActionTypes.CREATE_NEW_TOURNAMENT_ERROR;
 }
 
 export class SearchTournaments implements AnyAction {
@@ -66,4 +106,10 @@ export type TournamentActions =
   | InitializeTournamentsError
   | SearchTournaments
   | SearchTournamentsSuccess
-  | SearchTournamentsError;
+  | SearchTournamentsError
+  | CreateNewTournament
+  | CreateNewTournamentSuccess
+  | CreateNewTournamentError
+  | DeleteTournament
+  | DeleteTournamentSuccess
+  | DeleteTournamentError;

@@ -1,5 +1,16 @@
 {
   "dependencies": {
+    "polished": "^3.4.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "redux-dynamic-modules": "^5.2.3",
+    "redux-dynamic-modules-saga": "^5.2.3",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.0.1"
+  },
+  "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -16,18 +27,11 @@
     "json-server": "^0.16.0",
     "lodash.random": "^3.2.0",
     "lodash.upperfirst": "^4.3.1",
-    "polished": "^3.4.4",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-redux": "^7.2.0",
     "react-scripts": "3.4.0",
-    "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
-    "styled-components": "^5.0.1",
-    "typescript": "~3.7.2",
-    "wait-for-localhost-cli": "^1.1.0"
+    "wait-for-localhost-cli": "^1.1.0",
+    "typescript": "~3.7.2"
   },
   "scripts": {
     "start": "concurrently --kill-others \"npm run start:api\"  \"wait-for-localhost 4000 && npm run start:web\"",

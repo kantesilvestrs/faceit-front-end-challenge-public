@@ -4,7 +4,7 @@ import { TournamentsState, tournamentsReducer } from './reducer';
 import { InitializeTournaments } from './actions';
 import { tournamentsSaga } from './saga';
 
-interface TournamentsStoreModule {
+export interface TournamentsStoreModule {
   TOURNAMENTS: TournamentsState;
 }
 

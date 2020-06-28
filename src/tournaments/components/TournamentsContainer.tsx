@@ -1,6 +1,7 @@
 import React from 'react';
 import { SearchBar } from './SearchBar';
 import { Button, PageContainer, PageRow } from '../../ui/components';
+import { TournamentsList } from './TournamentsList';
 
 export const TournamentsContainer = () => (
   <PageContainer>
@@ -8,6 +9,8 @@ export const TournamentsContainer = () => (
       <SearchBar />
       <Button>Create Tournament</Button>
     </PageRow>
-    <PageRow>Tournaments...</PageRow>
+    <PageRow>
+      <TournamentsList />
+    </PageRow>
   </PageContainer>
 );

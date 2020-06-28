@@ -41,6 +41,10 @@ export const TournamentsContainer = () => {
     [searchTournaments]
   );
 
+  const handleRetrySearch = useCallback(() => {
+    searchTournaments(searchInputValue);
+  }, [searchTournaments, searchInputValue]);
+
   useEffect(() => {
     handleSearchFilterChange(searchInputValue);
   }, [searchInputValue, handleSearchFilterChange]);
@@ -56,7 +60,7 @@ export const TournamentsContainer = () => {
         <Button>Create Tournament</Button>
       </PageRow>
       <PageRow>
-        <TournamentsList />
+        <TournamentsList onRetry={handleRetrySearch} />
       </PageRow>
     </PageContainer>
   );

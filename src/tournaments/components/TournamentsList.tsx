@@ -2,10 +2,12 @@ import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
   getCurrentTournamentList,
-  getTournamentFetchStatus
+  getTournamentFetchStatus,
+  getTournamentError
 } from '../store/selectors';
 import styled from 'styled-components';
 import { TournamentListItem } from './TournamentListItem';
+import Button from '../../ui/components/Button';
 
 const PageInformation = styled.div`
   width: 100%;
@@ -20,13 +22,15 @@ const TournamentListWrapper = styled.div`
 `;
 
 interface TournamentsListProps {
-  searchTerm?: string;
+  onRetry: () => void;
 }
 
 export const TournamentsList = (props: TournamentsListProps) => {
+  const { onRetry } = props;
   // TODO: Implement more specific memoization
   const tournaments = useSelector(getCurrentTournamentList);
   const fetchStatus = useSelector(getTournamentFetchStatus);
+  const fetchError = useSelector(getTournamentError);
 
   const handleOnItemEditClick = useCallback((id: string) => {}, []);
   const handleOnItemDeleteClick = useCallback((id: string) => {}, []);
@@ -34,10 +38,9 @@ export const TournamentsList = (props: TournamentsListProps) => {
   return useMemo(
     () => (
       <TournamentListWrapper>
-        {fetchStatus && (
+        {fetchStatus ? (
           <PageInformation>Loading tournaments...</PageInformation>
-        )}
-        {!fetchStatus && (
+        ) : (
           <>
             {tournaments.map(
               ({ id, name, organizer, participants, startDate, game }) => (
@@ -55,13 +58,23 @@ export const TournamentsList = (props: TournamentsListProps) => {
                 />
               )
             )}
-            {tournaments.length > 0 && (
+            {tournaments.length > 0 ? (
               <PageInformation>
                 {`Showing 1-${tournaments.length} tournaments`}
               </PageInformation>
-            )}
-            {tournaments.length === 0 && (
-              <PageInformation>{`No tournaments found`}</PageInformation>
+            ) : (
+              <>
+                {fetchError ? (
+                  <>
+                    <PageInformation>{`Something went wrong`}</PageInformation>
+                    <PageInformation>
+                      <Button onClick={onRetry}>Retry</Button>
+                    </PageInformation>
+                  </>
+                ) : (
+                  <PageInformation>{`No tournaments found`}</PageInformation>
+                )}
+              </>
             )}
           </>
         )}

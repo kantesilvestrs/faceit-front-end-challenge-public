@@ -1,4 +1,4 @@
-import { takeEvery, call, put, takeLatest } from 'redux-saga/effects';
+import { takeEvery, call, put, takeLatest, select } from 'redux-saga/effects';
 import {
   TournamentActionTypes,
   InitializeTournamentsSuccess,
@@ -18,14 +18,19 @@ import { API } from '../../core/api/api';
 import { AxiosResponse } from 'axios';
 import { ITournamentResponse } from '../../core/api/responseTypes';
 import { DEFAULT_PAGE_SIZE } from '../constants/api';
+import { TournamentsStoreModule } from '.';
 
 function* deleteTournament(action: DeleteTournament) {
   try {
-    const reponse = yield call(
-      API.deleteTournament,
-      action.payload.tournamentId
-    );
+    const currentState: TournamentsStoreModule = yield select();
+
+    yield call(API.deleteTournament, action.payload.tournamentId);
     yield put({ ...new DeleteTournamentSuccess() });
+
+    // After successfull tournament deletion refresh the screen with the latest data
+    yield put({
+      ...new SearchTournaments({ query: currentState.TOURNAMENTS.latestQuery })
+    });
   } catch (e) {
     yield put({ ...new DeleteTournamentError() });
     log.error(e);
@@ -34,8 +39,15 @@ function* deleteTournament(action: DeleteTournament) {
 
 function* createNewTournament(action: CreateNewTournament) {
   try {
-    const reponse = yield call(API.createTournament, action.payload.name);
+    const currentState: TournamentsStoreModule = yield select();
+
+    yield call(API.createTournament, action.payload.name);
     yield put({ ...new CreateNewTournamentSuccess() });
+
+    // After successfull tournament creation refresh the screen with the latest data
+    yield put({
+      ...new SearchTournaments({ query: currentState.TOURNAMENTS.latestQuery })
+    });
   } catch (e) {
     yield put({ ...new CreateNewTournamentError() });
     log.error(e);

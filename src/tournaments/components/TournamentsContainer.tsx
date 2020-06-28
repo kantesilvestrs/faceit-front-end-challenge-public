@@ -3,15 +3,18 @@ import { Button, PageContainer, PageRow, Input } from '../../ui/components';
 import { TournamentsList } from './TournamentsList';
 import debounce from 'lodash.debounce';
 import { useDispatch } from 'react-redux';
-import { SearchTournaments } from '../store';
+import {
+  SearchTournaments,
+  DeleteTournament,
+  CreateNewTournament
+} from '../store';
 import { DEFAULT_PAGE_SIZE } from '../constants/api';
-//import { IGetTournamentsQuery } from '../../core/api/api';
 
 export const TournamentsContainer = () => {
   const [searchInputValue, setSearchInputValue] = useState('');
-  //const [query, setQuery] = useState<IGetTournamentsQuery>({});
 
   const dispatch = useDispatch();
+
   const searchTournaments = useCallback(
     (name: string) => {
       dispatch({
@@ -26,6 +29,32 @@ export const TournamentsContainer = () => {
     },
     [dispatch]
   );
+
+  const handleItemDelete = useCallback(
+    (tournamentId: string) => {
+      if (window.confirm('Do you really want to delete this tournament?')) {
+        dispatch({
+          ...new DeleteTournament({
+            tournamentId
+          })
+        });
+        searchTournaments(searchInputValue);
+      }
+    },
+    [dispatch, searchInputValue]
+  );
+
+  const handleItemCreate = useCallback(() => {
+    const tournamentName = window.prompt('Tournament Name:');
+
+    if (tournamentName !== null && tournamentName !== '') {
+      dispatch({
+        ...new CreateNewTournament({
+          name: tournamentName
+        })
+      });
+    }
+  }, [dispatch]);
 
   const handleSearchInputOnChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,10 +86,13 @@ export const TournamentsContainer = () => {
           value={searchInputValue}
           onChange={handleSearchInputOnChange}
         />
-        <Button>Create Tournament</Button>
+        <Button onClick={handleItemCreate}>Create Tournament</Button>
       </PageRow>
       <PageRow>
-        <TournamentsList onRetry={handleRetrySearch} />
+        <TournamentsList
+          onRetry={handleRetrySearch}
+          handleItemDelete={handleItemDelete}
+        />
       </PageRow>
     </PageContainer>
   );

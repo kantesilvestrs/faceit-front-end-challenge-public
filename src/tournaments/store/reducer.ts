@@ -1,8 +1,10 @@
 import { TournamentActions, TournamentActionTypes } from './actions';
 import { ITournamentResponse } from '../../core/api/responseTypes';
+import { IGetTournamentsQuery } from '../../core/api/api';
 
 export class TournamentsState {
   tournaments: Array<ITournamentResponse> = [];
+  latestQuery: IGetTournamentsQuery = {};
   error: string | null = null;
   fetching: boolean = false;
   deleting: boolean = false;
@@ -20,7 +22,8 @@ export function tournamentsReducer(
       return {
         ...state,
         fetching: true,
-        tournaments: []
+        tournaments: [],
+        latestQuery: action.payload.query
       };
     }
 

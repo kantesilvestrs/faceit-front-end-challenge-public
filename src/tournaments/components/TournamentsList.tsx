@@ -22,18 +22,18 @@ const TournamentListWrapper = styled.div`
 `;
 
 interface TournamentsListProps {
+  handleItemDelete: (id: string) => void;
   onRetry: () => void;
 }
 
 export const TournamentsList = (props: TournamentsListProps) => {
-  const { onRetry } = props;
+  const { onRetry, handleItemDelete } = props;
   // TODO: Implement more specific memoization
   const tournaments = useSelector(getCurrentTournamentList);
   const fetchStatus = useSelector(getTournamentFetchStatus);
   const fetchError = useSelector(getTournamentError);
 
   const handleOnItemEditClick = useCallback((id: string) => {}, []);
-  const handleOnItemDeleteClick = useCallback((id: string) => {}, []);
 
   return useMemo(
     () => (
@@ -54,7 +54,7 @@ export const TournamentsList = (props: TournamentsListProps) => {
                   maxParticipants={participants.max}
                   startDate={startDate}
                   onEditClick={handleOnItemEditClick}
-                  onDeleteClick={handleOnItemDeleteClick}
+                  onDeleteClick={handleItemDelete}
                 />
               )
             )}
@@ -80,6 +80,6 @@ export const TournamentsList = (props: TournamentsListProps) => {
         )}
       </TournamentListWrapper>
     ),
-    [tournaments, fetchStatus, handleOnItemDeleteClick, handleOnItemEditClick]
+    [tournaments, fetchStatus, handleItemDelete, handleOnItemEditClick]
   );
 };

@@ -40,7 +40,7 @@ export const TournamentsContainer = () => {
         });
       }
     },
-    [dispatch, searchInputValue]
+    [dispatch]
   );
 
   const handleItemCreate = useCallback(() => {

@@ -14,7 +14,28 @@ export enum TournamentActionTypes {
   CREATE_NEW_TOURNAMENT_ERROR = '[TOURNAMENTS_MODULE][TOURNAMENTS] Failed to create new tournament',
   DELETE_TOURNAMENT = '[TOURNAMENTS_MODULE][TOURNAMENTS] Delete existing tournament',
   DELETE_TOURNAMENT_SUCCESS = '[TOURNAMENTS_MODULE][TOURNAMENTS] Successfully delete tournament',
-  DELETE_TOURNAMENT_ERROR = '[TOURNAMENTS_MODULE][TOURNAMENTS] Failed to delete tournament'
+  DELETE_TOURNAMENT_ERROR = '[TOURNAMENTS_MODULE][TOURNAMENTS] Failed to delete tournament',
+  UPDATE_TOURNAMENT = '[TOURNAMENTS_MODULE][TOURNAMENTS] Update an existing tournament',
+  UPDATE_TOURNAMENT_SUCCESS = '[TOURNAMENTS_MODULE][TOURNAMENTS] Successfully update an existing tournament',
+  UPDATE_TOURNAMENT_ERROR = '[TOURNAMENTS_MODULE][TOURNAMENTS] Failed to update an existing tournament'
+}
+
+export class UpdateTournament implements AnyAction {
+  public readonly type = TournamentActionTypes.UPDATE_TOURNAMENT;
+  constructor(
+    public payload: {
+      id: string;
+      name: string;
+    }
+  ) {}
+}
+
+export class UpdateTournamentSuccess implements AnyAction {
+  public readonly type = TournamentActionTypes.UPDATE_TOURNAMENT_SUCCESS;
+}
+
+export class UpdateTournamentError implements AnyAction {
+  public readonly type = TournamentActionTypes.UPDATE_TOURNAMENT_ERROR;
 }
 
 export class DeleteTournament implements AnyAction {
@@ -112,4 +133,7 @@ export type TournamentActions =
   | CreateNewTournamentError
   | DeleteTournament
   | DeleteTournamentSuccess
-  | DeleteTournamentError;
+  | DeleteTournamentError
+  | UpdateTournament
+  | UpdateTournamentSuccess
+  | UpdateTournamentError;

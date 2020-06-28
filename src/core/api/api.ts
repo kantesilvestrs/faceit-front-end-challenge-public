@@ -1,14 +1,22 @@
 import axios from 'axios';
 import { ITournamentResponse } from './responseTypes';
-import { API_BASE_URL } from '../constants/api';
+import { API_TOURNAMENTS_URL } from '../constants/api';
 
-interface IGetTournamentsQuery {
+export interface IGetTournamentsQuery {
   name?: string;
   page?: number;
   limit?: number;
 }
 
 export class API {
+  /**
+   * Get latest tournaments from API
+   *
+   * @static
+   * @param {IGetTournamentsQuery} query - Filtering and pagination
+   * @returns
+   * @memberof API
+   */
   public static getTournaments(query: IGetTournamentsQuery) {
     const queryBuilder = [];
 
@@ -28,7 +36,31 @@ export class API {
       queryBuilder.length > 0 ? `?${queryBuilder.join('&')}` : '';
 
     return axios.get<Array<ITournamentResponse>>(
-      `${API_BASE_URL}/tournaments${requestQuery}`
+      `${API_TOURNAMENTS_URL}${requestQuery}`
     );
+  }
+
+  /**
+   * Delete specific tournament
+   *
+   * @static
+   * @param {string} id - Tournament id
+   * @returns
+   * @memberof API
+   */
+  public static deleteTournament(id: string) {
+    return axios.delete(`${API_TOURNAMENTS_URL}/${id}`);
+  }
+
+  /**
+   * Create a new tournament
+   *
+   * @static
+   * @param {string} name - Tournament name
+   * @returns
+   * @memberof API
+   */
+  public static createTournament(name: string) {
+    return axios.post(`${API_TOURNAMENTS_URL}`, { name });
   }
 }

@@ -5,13 +5,42 @@ import {
   InitializeTournamentsError,
   SearchTournamentsError,
   SearchTournaments,
-  SearchTournamentsSuccess
+  SearchTournamentsSuccess,
+  CreateNewTournament,
+  CreateNewTournamentError,
+  CreateNewTournamentSuccess,
+  DeleteTournament,
+  DeleteTournamentError,
+  DeleteTournamentSuccess
 } from './actions';
 import { log } from '../../core/utils/logging/logService';
 import { API } from '../../core/api/api';
 import { AxiosResponse } from 'axios';
 import { ITournamentResponse } from '../../core/api/responseTypes';
 import { DEFAULT_PAGE_SIZE } from '../constants/api';
+
+function* deleteTournament(action: DeleteTournament) {
+  try {
+    const reponse = yield call(
+      API.deleteTournament,
+      action.payload.tournamentId
+    );
+    yield put({ ...new DeleteTournamentSuccess() });
+  } catch (e) {
+    yield put({ ...new DeleteTournamentError() });
+    log.error(e);
+  }
+}
+
+function* createNewTournament(action: CreateNewTournament) {
+  try {
+    const reponse = yield call(API.createTournament, action.payload.name);
+    yield put({ ...new CreateNewTournamentSuccess() });
+  } catch (e) {
+    yield put({ ...new CreateNewTournamentError() });
+    log.error(e);
+  }
+}
 
 function* searchTournaments(action: SearchTournaments) {
   try {
@@ -52,4 +81,9 @@ export function* tournamentsSaga() {
     initializeTournaments
   );
   yield takeLatest(TournamentActionTypes.SEARCH_TOURNAMENTS, searchTournaments);
+  yield takeEvery(
+    TournamentActionTypes.CREATE_NEW_TOURNAMENT,
+    createNewTournament
+  );
+  yield takeEvery(TournamentActionTypes.DELETE_TOURNAMENT, deleteTournament);
 }

@@ -19,7 +19,8 @@ export function tournamentsReducer(
     case TournamentActionTypes.SEARCH_TOURNAMENTS: {
       return {
         ...state,
-        fetching: true
+        fetching: true,
+        tournaments: []
       };
     }
 
@@ -36,8 +37,7 @@ export function tournamentsReducer(
       return {
         ...state,
         fetching: false,
-        error: action.payload.error,
-        tournaments: []
+        error: action.payload.error
       };
     }
 

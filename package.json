@@ -19,6 +19,7 @@
     "@testing-library/user-event": "^7.1.2",
     "@types/axios": "^0.14.0",
     "@types/jest": "^24.0.0",
+    "@types/lodash.debounce": "^4.0.6",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
@@ -39,7 +40,7 @@
     "wait-for-localhost-cli": "^1.1.0"
   },
   "scripts": {
-    "start": "concurrently --kill-others \"npm run start:api\"  \"wait-for-localhost 4000 && npm run start:web\"",
+    "start": "concurrently --kill-others \"npm run start:api:timeout\"  \"wait-for-localhost 4000 && npm run start:web\"",
     "start:api": "json-server -p 4000 -m api/post.js -d -w ./api/db.js",
     "start:api:timeout": "json-server -p 4000 -m api/timeout.js -d -w ./api/db.js",
     "start:web": "react-scripts start",

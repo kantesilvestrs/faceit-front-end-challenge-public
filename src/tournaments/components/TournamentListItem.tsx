@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import H6 from '../../ui/components/H6';
 import Button from '../../ui/components/Button';
+import moment from 'moment';
 
 const TournamentHeader = styled(H6)`
   width: 100%;
@@ -94,7 +95,12 @@ export const TournamentListItem = (props: TournamentListItemProps) => {
       <TournamentDetail>
         Participants: {currentParticipants}/{maxParticipants}
       </TournamentDetail>
-      <TournamentDetail title={startDate}>Start: {startDate}</TournamentDetail>
+      <TournamentDetail title={startDate}>
+        Start:
+        {moment(new Date(startDate))
+          .locale('en-GB')
+          .format('DD/MM/YYYY, HH:MM:SS')}
+      </TournamentDetail>
       <TournamentBoxButtonWrap>
         <TournamentBoxButton
           onClick={handleEditButtonOnClick}

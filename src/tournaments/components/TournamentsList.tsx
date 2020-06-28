@@ -1,24 +1,22 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { getCurrentTournamentList } from '../store/selectors';
-import { Container as div, H6 } from '../../ui/components';
+import {
+  getCurrentTournamentList,
+  getTournamentFetchStatus
+} from '../store/selectors';
 import styled from 'styled-components';
+import { TournamentListItem } from './TournamentListItem';
 
-const TournamentListWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
+const PageInformation = styled.div`
+  width: 100%;
+  position: relative;
+  float: left;
+  text-align: center;
+  margin-bottom: ${({ theme }) => theme.spacing(6)};
 `;
 
-const TournamentBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 280px;
-  border-radius: 3px;
-  padding: ${({ theme }) => theme.spacing(4)};
-  margin-bottom: ${({ theme }) => theme.spacing(4)};
-  background-color: ${({ theme }) => theme.palette.background.alt1};
+const TournamentListWrapper = styled.div`
+  width: 100%;
 `;
 
 interface TournamentsListProps {
@@ -26,17 +24,49 @@ interface TournamentsListProps {
 }
 
 export const TournamentsList = (props: TournamentsListProps) => {
-  const { searchTerm } = props;
-
+  // TODO: Implement more specific memoization
   const tournaments = useSelector(getCurrentTournamentList);
+  const fetchStatus = useSelector(getTournamentFetchStatus);
 
-  return (
-    <TournamentListWrapper>
-      {tournaments.map(({ id, name }) => (
-        <TournamentBox key={id}>
-          <H6>{name}</H6>
-        </TournamentBox>
-      ))}
-    </TournamentListWrapper>
+  const handleOnItemEditClick = useCallback((id: string) => {}, []);
+  const handleOnItemDeleteClick = useCallback((id: string) => {}, []);
+
+  return useMemo(
+    () => (
+      <TournamentListWrapper>
+        {fetchStatus && (
+          <PageInformation>Loading tournaments...</PageInformation>
+        )}
+        {!fetchStatus && (
+          <>
+            {tournaments.map(
+              ({ id, name, organizer, participants, startDate, game }) => (
+                <TournamentListItem
+                  key={id}
+                  id={id}
+                  name={name}
+                  organizer={organizer}
+                  game={game}
+                  currentParticipants={participants.current}
+                  maxParticipants={participants.max}
+                  startDate={startDate}
+                  onEditClick={handleOnItemEditClick}
+                  onDeleteClick={handleOnItemDeleteClick}
+                />
+              )
+            )}
+            {tournaments.length > 0 && (
+              <PageInformation>
+                {`Showing 1-${tournaments.length} tournaments`}
+              </PageInformation>
+            )}
+            {tournaments.length === 0 && (
+              <PageInformation>{`No tournaments found`}</PageInformation>
+            )}
+          </>
+        )}
+      </TournamentListWrapper>
+    ),
+    [tournaments, fetchStatus, handleOnItemDeleteClick, handleOnItemEditClick]
   );
 };

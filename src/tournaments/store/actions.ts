@@ -32,6 +32,11 @@ export class UpdateTournament implements AnyAction {
 
 export class UpdateTournamentSuccess implements AnyAction {
   public readonly type = TournamentActionTypes.UPDATE_TOURNAMENT_SUCCESS;
+  constructor(
+    public payload: {
+      tournament: ITournamentResponse;
+    }
+  ) {}
 }
 
 export class UpdateTournamentError implements AnyAction {
@@ -49,6 +54,11 @@ export class DeleteTournament implements AnyAction {
 
 export class DeleteTournamentSuccess implements AnyAction {
   public readonly type = TournamentActionTypes.DELETE_TOURNAMENT_SUCCESS;
+  constructor(
+    public payload: {
+      id: string;
+    }
+  ) {}
 }
 
 export class DeleteTournamentError implements AnyAction {
@@ -66,6 +76,11 @@ export class CreateNewTournament implements AnyAction {
 
 export class CreateNewTournamentSuccess implements AnyAction {
   public readonly type = TournamentActionTypes.CREATE_NEW_TOURNAMENT_SUCCESS;
+  constructor(
+    public payload: {
+      tournament: ITournamentResponse;
+    }
+  ) {}
 }
 
 export class CreateNewTournamentError implements AnyAction {

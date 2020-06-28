@@ -31,15 +31,16 @@ function* updateTournament(action: UpdateTournament) {
         ({ id: tournamentId }) => tournamentId === action.payload.id
       ) || ({} as ITournamentResponse);
 
-    yield call(API.updateTournament, action.payload.id, {
+    const udpatedTournament = {
       ...tournament,
       name: action.payload.name
-    });
-    yield put({ ...new UpdateTournamentSuccess() });
+    };
 
-    // After successfull tournament deletion refresh the screen with the latest data
+    yield call(API.updateTournament, action.payload.id, udpatedTournament);
     yield put({
-      ...new SearchTournaments({ query: currentState.TOURNAMENTS.latestQuery })
+      ...new UpdateTournamentSuccess({
+        tournament: udpatedTournament
+      })
     });
   } catch (e) {
     yield put({ ...new UpdateTournamentError() });
@@ -49,14 +50,9 @@ function* updateTournament(action: UpdateTournament) {
 
 function* deleteTournament(action: DeleteTournament) {
   try {
-    const currentState: TournamentsStoreModule = yield select();
-
     yield call(API.deleteTournament, action.payload.tournamentId);
-    yield put({ ...new DeleteTournamentSuccess() });
-
-    // After successfull tournament deletion refresh the screen with the latest data
     yield put({
-      ...new SearchTournaments({ query: currentState.TOURNAMENTS.latestQuery })
+      ...new DeleteTournamentSuccess({ id: action.payload.tournamentId })
     });
   } catch (e) {
     yield put({ ...new DeleteTournamentError() });
@@ -66,14 +62,14 @@ function* deleteTournament(action: DeleteTournament) {
 
 function* createNewTournament(action: CreateNewTournament) {
   try {
-    const currentState: TournamentsStoreModule = yield select();
-
-    yield call(API.createTournament, action.payload.name);
-    yield put({ ...new CreateNewTournamentSuccess() });
-
-    // After successfull tournament creation refresh the screen with the latest data
+    const response: AxiosResponse<ITournamentResponse> = yield call(
+      API.createTournament,
+      action.payload.name
+    );
     yield put({
-      ...new SearchTournaments({ query: currentState.TOURNAMENTS.latestQuery })
+      ...new CreateNewTournamentSuccess({
+        tournament: response.data
+      })
     });
   } catch (e) {
     yield put({ ...new CreateNewTournamentError() });

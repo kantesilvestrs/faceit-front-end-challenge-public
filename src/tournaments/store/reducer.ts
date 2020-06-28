@@ -18,6 +18,43 @@ export function tournamentsReducer(
   action: TournamentActions
 ): TournamentsState {
   switch (action.type) {
+    case TournamentActionTypes.CREATE_NEW_TOURNAMENT_SUCCESS: {
+      const newTournamentArray = [...state.tournaments];
+      newTournamentArray.unshift(action.payload.tournament);
+      newTournamentArray.pop();
+
+      return {
+        ...state,
+        tournaments: newTournamentArray
+      };
+    }
+
+    case TournamentActionTypes.DELETE_TOURNAMENT_SUCCESS: {
+      const newTournamentArray = [...state.tournaments];
+      newTournamentArray.splice(
+        newTournamentArray.findIndex(({ id }) => id === action.payload.id),
+        1
+      );
+      return {
+        ...state,
+        tournaments: newTournamentArray
+      };
+    }
+
+    case TournamentActionTypes.UPDATE_TOURNAMENT_SUCCESS: {
+      const newTournamentArray = [...state.tournaments];
+      const existingTournament = newTournamentArray.find(
+        ({ id }) => id === action.payload.tournament.id
+      );
+      if (existingTournament) {
+        existingTournament.name = action.payload.tournament.name;
+      }
+      return {
+        ...state,
+        tournaments: newTournamentArray
+      };
+    }
+
     case TournamentActionTypes.SEARCH_TOURNAMENTS: {
       return {
         ...state,

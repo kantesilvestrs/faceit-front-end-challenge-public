@@ -80,6 +80,13 @@ export const TournamentsList = (props: TournamentsListProps) => {
         )}
       </TournamentListWrapper>
     ),
-    [tournaments, fetchStatus, handleItemDelete, handleOnItemEditClick]
+    [
+      tournaments,
+      fetchStatus,
+      handleItemDelete,
+      handleOnItemEditClick,
+      onRetry,
+      fetchError
+    ]
   );
 };

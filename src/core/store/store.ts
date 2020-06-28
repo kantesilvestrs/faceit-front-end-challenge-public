@@ -1,5 +1,6 @@
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import { rootReducer } from './reducer';
+import { createStore } from 'redux-dynamic-modules';
+import { getSagaExtension } from 'redux-dynamic-modules-saga';
 
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = createStore({
+  extensions: [getSagaExtension()]
+});

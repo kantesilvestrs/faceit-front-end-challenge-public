@@ -61,7 +61,7 @@ export class API {
    * @memberof API
    */
   public static createTournament(name: string) {
-    return axios.post(`${API_TOURNAMENTS_URL}`, { name });
+    return axios.post<ITournamentResponse>(`${API_TOURNAMENTS_URL}`, { name });
   }
 
   /**
@@ -74,6 +74,8 @@ export class API {
    * @memberof API
    */
   public static updateTournament(id: string, tournament: ITournamentResponse) {
-    return axios.put(`${API_TOURNAMENTS_URL}/${id}`, { ...tournament });
+    return axios.put<ITournamentResponse>(`${API_TOURNAMENTS_URL}/${id}`, {
+      ...tournament
+    });
   }
 }

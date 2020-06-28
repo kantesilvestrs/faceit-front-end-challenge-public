@@ -10,5 +10,9 @@ export interface ITournamentResponse {
   name: string;
   organizer: string;
   game: TournamentGamesType;
+  participants: {
+    current: number;
+    max: number;
+  };
   startDate: string;
 }

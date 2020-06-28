@@ -38,7 +38,6 @@ export const TournamentsContainer = () => {
             tournamentId
           })
         });
-        searchTournaments(searchInputValue);
       }
     },
     [dispatch, searchInputValue]

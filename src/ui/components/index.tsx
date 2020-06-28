@@ -4,5 +4,8 @@ import H4 from './H4';
 import H6 from './H6';
 import Input from './Input';
 
+// Export layout components
+export * from './layout';
+
 // Define fixed exports
 export { Button, Container, H4, H6, Input };

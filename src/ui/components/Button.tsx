@@ -10,6 +10,7 @@ const Button = styled.button`
   border-radius: 4px;
   color: ${({ theme }) => theme.palette.primary.main};
   padding: ${({ theme }) => theme.spacing(2)};
+  cursor: pointer;
   ${({ theme }) => theme.typography.button};
 
   &:hover {

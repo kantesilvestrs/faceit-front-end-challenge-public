@@ -1,11 +1,12 @@
 import React from 'react';
 import { DynamicModuleLoader } from 'redux-dynamic-modules';
 import { getTournamentsStoreModule } from './store';
+import { TournamentsContainer } from './components/TournamentsContainer';
 
-const Tournaments = () => (
+const TournamentsWrapper = () => (
   <DynamicModuleLoader modules={[getTournamentsStoreModule()]}>
-    hmmm...
+    <TournamentsContainer />
   </DynamicModuleLoader>
 );
 
-export default Tournaments;
+export default TournamentsWrapper;

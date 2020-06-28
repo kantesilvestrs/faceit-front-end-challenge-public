@@ -69,11 +69,11 @@ export class API {
    *
    * @static
    * @param {string} id - Tournament id
-   * @param {string} name - New tournament name
+   * @param {ITournamentResponse} tournament - New tournament object
    * @returns
    * @memberof API
    */
-  public static updateTournament(id: string, name: string) {
-    return axios.put(`${API_TOURNAMENTS_URL}/${id}`, { name });
+  public static updateTournament(id: string, tournament: ITournamentResponse) {
+    return axios.put(`${API_TOURNAMENTS_URL}/${id}`, { ...tournament });
   }
 }
